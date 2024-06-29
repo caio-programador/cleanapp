@@ -1,12 +1,13 @@
 from pydantic import BaseModel
+from typing import List
 from db.models.PostLevel import PostLevel
 
 
 class PostSchema(BaseModel):
     id: int
     title: str
-    comments: str
-    images_url: str
+    comments: List[str]
+    images_url: List[str]
     address: str
     level: PostLevel
     category_id: int
@@ -28,8 +29,8 @@ class PostCreate(BaseModel):
 
 
 class PostUpdate(BaseModel):
-    images_url: str
-    comments: str
+    images_url: List[str]
+    comments: List[str]
 
 
 class PostVotes(BaseModel):
