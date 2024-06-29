@@ -45,4 +45,7 @@ def delete_post_router(id: int, db: Session = Depends(get_db)):
     return delete_post(db, id)
 
 
-
+@router.post("/like/{id}")
+def liking_post(id: int, db: Session = Depends(get_db)):
+    post_likes(db, id)
+    return "CURTIDASSO"

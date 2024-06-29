@@ -9,6 +9,7 @@ class PostSchema(BaseModel):
     images_url: str
     address: str
     level: PostLevel
+    category_name: str
 
     class Config:
         from_attributes = True

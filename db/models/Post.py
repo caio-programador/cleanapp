@@ -15,6 +15,6 @@ class Post(Base):
     address = Column(String)
     category_id = Column(Integer, ForeignKey("categories.id"), index=True)
     level = Column(Enum(PostLevel), index=True)
-    votes = Column(Integer, index=True)
+    likes = Column(Integer, index=True)
 
     category = relationship("Category")
