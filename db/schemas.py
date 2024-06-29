@@ -9,6 +9,18 @@ class PostSchema(BaseModel):
     images_url: str
     address: str
     level: PostLevel
+    category_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class PostCreate(BaseModel):
+    title: str
+    comments: List[str]
+    images_url: List[str]
+    address: str
+    level: PostLevel
     category_name: str
 
     class Config:

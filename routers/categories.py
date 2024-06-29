@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
 
-from db.models.Post import Post
+from db.models.Category import Category
 
 from db.service import *
 from dependencies import get_db
@@ -13,3 +13,7 @@ router = APIRouter(
     dependencies=[Depends(get_db)],
     responses={404: {"description": "Not found"}}
 )
+
+@router.get("/")
+def get_all_categories(db: Session = Depends(get_db)):
+    return db.query(Category).all()

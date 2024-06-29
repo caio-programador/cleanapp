@@ -31,11 +31,11 @@ def get_post_by_category_id_router(category_id: int, db: Session = Depends(get_d
 
 
 @router.post("/", response_model=PostSchema)
-def create_post_router(post: PostSchema, db: Session = Depends(get_db)):
+def create_post_router(post: PostCreate, db: Session = Depends(get_db)):
     return create_post(db, post)
 
 
-@router.put("/{id}")
+@router.put("/{id}", response_model=PostSchema)
 def update_post_router(id: int, post: PostUpdate, db: Session = Depends(get_db)):
     return update_post(db, post, id)
 
