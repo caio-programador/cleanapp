@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from sqlalchemy import Enum, Column, ForeignKey, Integer, String, ARRAY, Text
+from sqlalchemy import Enum, Column, ForeignKey, Integer, String, Text, Float
 
 from .PostLevel import PostLevel
 from ..database import Base
@@ -12,7 +12,8 @@ class Post(Base):
     title = Column(String(30), index=True)
     comments = Column(Text)
     images_url = Column(Text)
-    address = Column(String)
+    latitude = Column(Float)
+    longitude = Column(Float)
     category_id = Column(Integer, ForeignKey("categories.id"), index=True)
     level = Column(Enum(PostLevel), index=True)
     likes = Column(Integer, index=True)

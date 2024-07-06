@@ -8,9 +8,11 @@ class PostSchema(BaseModel):
     title: str
     comments: List[str]
     images_url: List[str]
-    address: str
+    latitude: float
+    longitude: float
     level: PostLevel
     category_id: int
+    likes: int
 
     class Config:
         from_attributes = True
@@ -19,8 +21,8 @@ class PostSchema(BaseModel):
 class PostCreate(BaseModel):
     title: str
     comments: List[str]
-    images_url: List[str]
-    address: str
+    latitude: float
+    longitude: float
     level: PostLevel
     category_name: str
 
@@ -32,6 +34,3 @@ class PostUpdate(BaseModel):
     images_url: List[str]
     comments: List[str]
 
-
-class PostVotes(BaseModel):
-    votes: int

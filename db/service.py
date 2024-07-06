@@ -31,7 +31,7 @@ def get_post_by_category(db: Session, category_id: int):
     return posts
 
 
-def create_post(db: Session, post: PostCreate):
+def create_post(db: Session, post: PostCreate, images_url: List[str]):
     # Verifica se a categoria existe, caso contrário, cria uma nova
     db_category = get_category_by_name(db, post.category_name)
     if db_category is None:
@@ -39,14 +39,15 @@ def create_post(db: Session, post: PostCreate):
 
     # Converte comments e images_url para JSON
     json_comments = json.dumps(post.comments)
-    json_images_url = json.dumps(post.images_url)
+    json_images_url = json.dumps(images_url)
 
     # Cria o objeto Post
     db_post = Post(
         title=post.title,
         comments=json_comments,
         images_url=json_images_url,
-        address=post.address,
+        latitude=post.latitude,
+        longitude=post.longitude,
         category_id=db_category.id,
         level=post.level,
         likes=0
@@ -108,7 +109,9 @@ def convert_post_schemas(post: Post) -> PostSchema:
         title=post.title,
         comments=json.loads(post.comments),  # converte string para lista (loads())
         images_url=json.loads(post.images_url),
-        address=post.address,
+        latitude=post.latitude,
+        longitude=post.longitude,
         level=post.level,
-        category_id=post.category_id
+        category_id=post.category_id,
+        likes=post.likes,
     )
