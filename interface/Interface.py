@@ -321,7 +321,7 @@ class Interface:
             # tem q ver
 
     def configurar(self):
-        self.root.title("Interface Example")
+        self.root.title("CleanApp")
         self.root.geometry("450x650")  # Set the size of the window
         self.root.configure(background="black")
         self.root.resizable(width=False, height=False)
