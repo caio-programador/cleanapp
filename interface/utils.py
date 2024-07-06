@@ -2,10 +2,12 @@ from PIL import Image, ImageTk
 import requests
 
 
+# Função que redimensiona o ícone corretamente
 def carregar_icone(caminho, tamanho):
     return ImageTk.PhotoImage(Image.open(caminho).resize((tamanho, tamanho), Image.Resampling.LANCZOS))
 
 
+# Função que busca pelo endereço e retorna latitude e longitude
 def geocode_address(rua, numero, bairro, uf, municipio):
     api_key = 'AIzaSyABmCB47c_S2N3MY5aG0mugy2LvVR_L3L8'
     endpoint = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -31,5 +33,6 @@ def geocode_address(rua, numero, bairro, uf, municipio):
         return None, None
 
 
+# Função para limitar os caractéres
 def limitar_caracteres(entry_text):
     return len(entry_text) <= 40

@@ -3,7 +3,9 @@ from typing import List
 from db.models.PostLevel import PostLevel
 
 
-class PostSchema(BaseModel):
+# INICIE AQUI: Este arquivo possui os objetos que serão retornados ou usados pelas rotas
+
+class PostReturn(BaseModel):
     id: int
     title: str
     comments: List[str]

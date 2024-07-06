@@ -271,17 +271,6 @@ class Interface:
         if lat == self.LAT and long == self.LONG:
             self.nao_encontrado()
         else:
-            print("problema " + str(self.problema.get()) +
-                  " rua " + str(self.rua.get()) +
-                  " numero " + str(self.numero.get()) +
-                  " bairro " + str(self.bairro.get()) +
-                  " gravidade " + str(self.gravidade.get()) +
-                  " comentarios " + str(self.comentarios.get()) +
-                  " evidencia " + str(self.evidencia.get()) +
-                  " likes 0" +
-                  " latitude " + str(lat) +
-                  " longitude " + str(long))
-            # aqui farei o post
             data = {
                 "title": self.problema.get(),
                 "comments": [self.comentarios.get()],
@@ -295,7 +284,6 @@ class Interface:
             ]
 
             response = requests.post(self.URL, data=data, files=files)
-            print(response.text)
             if response.status_code != 200:
                 print(f"Erro: {response.status_code}, {response.text}")
                 return

@@ -5,6 +5,7 @@ from .PostLevel import PostLevel
 from ..database import Base
 
 
+# Tabela post no banco de dados
 class Post(Base):
     __tablename__ = "posts"
 
@@ -18,4 +19,5 @@ class Post(Base):
     level = Column(Enum(PostLevel), index=True)
     likes = Column(Integer, index=True)
 
+    # Relacionando a tabela post com a tabela categoria
     category = relationship("Category")

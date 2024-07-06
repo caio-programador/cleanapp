@@ -10,6 +10,7 @@ from db.service import *
 from dependencies import get_db
 from sqlalchemy.orm import Session
 
+# Configuração da rota post, terá o caminho padrão + "/posts"
 router = APIRouter(
     prefix="/posts",
     tags=["posts"],
@@ -17,25 +18,27 @@ router = APIRouter(
     responses={404: {"description": "Not found"}}
 )
 
-MAPS_API_KEY = "AIzaSyBJ9g92euQMzv3ac0zaxYi4yYROVlFRnwA"
 
-
-@router.get("/", response_model=List[PostSchema])
-def get_all_router(db: Session = Depends(get_db)) -> List[PostSchema]:
+# Rota que retorna todos os posts no banco de dados
+@router.get("/", response_model=List[PostReturn])
+def get_all_router(db: Session = Depends(get_db)) -> List[PostReturn]:
     return get_all_posts(db)
 
 
-@router.get("/{id}", response_model=PostSchema)
-def get_post_by_id_router(id: int, db: Session = Depends(get_db)) -> PostSchema:
+# Rota que retorna apenas um post do banco de dados
+@router.get("/{id}", response_model=PostReturn)
+def get_post_by_id_router(id: int, db: Session = Depends(get_db)) -> PostReturn:
     return get_post_by_id(db, id)
 
 
+# rota que retorna uma lista de posts conforme o id de sua categoria
 @router.get("/categories/{category_id}")
-def get_post_by_category_id_router(category_id: int, db: Session = Depends(get_db)) -> PostSchema:
+def get_post_by_category_id_router(category_id: int, db: Session = Depends(get_db)) -> PostReturn:
     return get_post_by_category(db, category_id)
 
 
-@router.post("/", response_model=PostSchema)
+# rota que cria um post no banco de dados e retorna o mesmo
+@router.post("/", response_model=PostReturn)
 def create_post_router(
         title: str = Form(...),
         comments: List[str] = Form(...),
@@ -63,6 +66,7 @@ def create_post_router(
     return create_post(db, post, images_url)
 
 
+# Função para salvar a imagem em uma pasta media dentro diretório do projeto
 def save_image(file: UploadFile) -> str:
     now = datetime.now()
     year = now.strftime("%Y")
@@ -80,17 +84,19 @@ def save_image(file: UploadFile) -> str:
     return file_path
 
 
-@router.put("/{id}", response_model=PostSchema)
+# Rota para colocar mais algumas informações no post
+@router.put("/{id}", response_model=PostReturn)
 def update_post_router(id: int, post: PostUpdate, db: Session = Depends(get_db)):
     return update_post(db, post, id)
 
 
+# Rota para deletar um problema em caso de erro
 @router.delete("/{id}")
 def delete_post_router(id: int, db: Session = Depends(get_db)):
     return delete_post(db, id)
 
 
+# Rota para incrementar um like em um post
 @router.post("/like/{id}")
 def liking_post(id: int, db: Session = Depends(get_db)):
     post_likes(db, id)
-    return "CURTIDASSO"

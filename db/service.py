@@ -12,11 +12,16 @@ from .models.PostLevel import PostLevel
 from .schemas import *
 
 
-def get_all_posts(db: Session, skip: int = 0, limit_posts: int = 100) -> List[PostSchema]:
+# INICIE AQUI: neste arquivo se encontram as funções por conectar as rotas e o banco de dados
+
+
+# Função que pega todos os posts do banco de dados e os retorna
+def get_all_posts(db: Session, skip: int = 0, limit_posts: int = 100) -> List[PostReturn]:
     posts = db.query(Post).offset(skip).limit(limit_posts).all()
     return [convert_post_schemas(post) for post in posts]
 
 
+# Pega um post com base no id
 def get_post_by_id(db: Session, id: int):
     post = db.query(Post).filter(Post.id == id).first()
     if post is None:
@@ -24,6 +29,7 @@ def get_post_by_id(db: Session, id: int):
     return convert_post_schemas(post)
 
 
+# Função que retorna uma lista de posts com base no id da categoria
 def get_post_by_category(db: Session, category_id: int):
     posts = db.query(Post.Post).filter(Post.Post.category_id == category_id).all()
     if posts is None:
@@ -31,6 +37,7 @@ def get_post_by_category(db: Session, category_id: int):
     return posts
 
 
+# Função que cria o post
 def create_post(db: Session, post: PostCreate, images_url: List[str]):
     # Verifica se a categoria existe, caso contrário, cria uma nova
     db_category = get_category_by_name(db, post.category_name)
@@ -59,6 +66,7 @@ def create_post(db: Session, post: PostCreate, images_url: List[str]):
     return convert_post_schemas(db_post)
 
 
+# Função que atualiza um post, adicionando mais comentários ou novas imagens
 def update_post(db: Session, post_updated: PostUpdate, id: int):
     db_post = db.query(Post).filter(Post.id == id).first()
     if db_post is None:
@@ -70,6 +78,7 @@ def update_post(db: Session, post_updated: PostUpdate, id: int):
     return convert_post_schemas(db_post)
 
 
+# Função que exclui um post
 def delete_post(db: Session, id: int):
     db_post = db.query(Post).filter(Post.id == id).first()
     if db_post is None:
@@ -79,11 +88,13 @@ def delete_post(db: Session, id: int):
     return "Post deletado"
 
 
+# Função que procura por uma categoria no banco de dados para verificar a existência
 def get_category_by_name(db: Session, name: str):
     db_category = db.query(Category).filter(Category.name == name).first()
     return db_category
 
 
+# Função que cria uma nova categoria
 def create_category(db: Session, name_category: str):
     db_category = Category(name=name_category)
     db.add(db_category)
@@ -92,6 +103,7 @@ def create_category(db: Session, name_category: str):
     return db_category
 
 
+# Função que incrementa as curtidas de um post
 def post_likes(db: Session, id: int):
     db_post = db.query(Post).filter(Post.id == id).first()
     db_post.likes += 1
@@ -99,12 +111,14 @@ def post_likes(db: Session, id: int):
     db.refresh(db_post)
 
 
+# Função que retorna todas as categorias
 def get_all_categories(db: Session):
     return db.query(Category).all()
 
 
-def convert_post_schemas(post: Post) -> PostSchema:
-    return PostSchema(
+# Função que converte o que vem do banco de dados para um objeto que as rotas consigam entender e entregar
+def convert_post_schemas(post: Post) -> PostReturn:
+    return PostReturn(
         id=post.id,
         title=post.title,
         comments=json.loads(post.comments),  # converte string para lista (loads())

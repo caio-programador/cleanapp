@@ -1,7 +1,8 @@
 from ..database import Base
-from sqlalchemy import Enum, Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 
 
+# Tabela categoria no banco de dados
 class Category(Base):
     __tablename__ = "categories"
 
