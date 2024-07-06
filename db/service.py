@@ -45,13 +45,12 @@ def create_post(db: Session, post: PostCreate, images_url: List[str]):
         db_category = create_category(db, post.category_name)
 
     # Converte comments e images_url para JSON
-    json_comments = json.dumps(post.comments)
     json_images_url = json.dumps(images_url)
 
     # Cria o objeto Post
     db_post = Post(
         title=post.title,
-        comments=json_comments,
+        description=post.description,
         images_url=json_images_url,
         latitude=post.latitude,
         longitude=post.longitude,
@@ -61,18 +60,6 @@ def create_post(db: Session, post: PostCreate, images_url: List[str]):
     )
     # Adiciona e confirma a transação
     db.add(db_post)
-    db.commit()
-    db.refresh(db_post)
-    return convert_post_schemas(db_post)
-
-
-# Função que atualiza um post, adicionando mais comentários ou novas imagens
-def update_post(db: Session, post_updated: PostUpdate, id: int):
-    db_post = db.query(Post).filter(Post.id == id).first()
-    if db_post is None:
-        raise HTTPException(status_code=404, detail="Post not found")
-    db_post.comments = post_updated.comments
-    db_post.images_url = post_updated.images_url
     db.commit()
     db.refresh(db_post)
     return convert_post_schemas(db_post)
@@ -121,7 +108,7 @@ def convert_post_schemas(post: Post) -> PostReturn:
     return PostReturn(
         id=post.id,
         title=post.title,
-        comments=json.loads(post.comments),  # converte string para lista (loads())
+        description=post.description,  # converte string para lista (loads())
         images_url=json.loads(post.images_url),
         latitude=post.latitude,
         longitude=post.longitude,

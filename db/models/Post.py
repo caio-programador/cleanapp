@@ -11,7 +11,7 @@ class Post(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(30), index=True)
-    comments = Column(Text)
+    description = Column(Text)
     images_url = Column(Text)
     latitude = Column(Float)
     longitude = Column(Float)

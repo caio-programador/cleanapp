@@ -8,7 +8,7 @@ from db.models.PostLevel import PostLevel
 class PostReturn(BaseModel):
     id: int
     title: str
-    comments: List[str]
+    description: str
     images_url: List[str]
     latitude: float
     longitude: float
@@ -22,7 +22,7 @@ class PostReturn(BaseModel):
 
 class PostCreate(BaseModel):
     title: str
-    comments: List[str]
+    description: str
     latitude: float
     longitude: float
     level: PostLevel
@@ -32,7 +32,4 @@ class PostCreate(BaseModel):
         from_attributes = True
 
 
-class PostUpdate(BaseModel):
-    images_url: List[str]
-    comments: List[str]
 

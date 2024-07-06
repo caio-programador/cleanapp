@@ -41,7 +41,7 @@ def get_post_by_category_id_router(category_id: int, db: Session = Depends(get_d
 @router.post("/", response_model=PostReturn)
 def create_post_router(
         title: str = Form(...),
-        comments: List[str] = Form(...),
+        description: str = Form(...),
         latitude: float = Form(...),
         longitude: float = Form(...),
         category_name: str = Form(...),
@@ -51,7 +51,7 @@ def create_post_router(
 ):
     post = PostCreate(
         title=title,
-        comments=comments,
+        description=description,
         latitude=latitude,
         longitude=longitude,
         level=post_level,
@@ -82,12 +82,6 @@ def save_image(file: UploadFile) -> str:
         shutil.copyfileobj(file.file, buffer)
 
     return file_path
-
-
-# Rota para colocar mais algumas informações no post
-@router.put("/{id}", response_model=PostReturn)
-def update_post_router(id: int, post: PostUpdate, db: Session = Depends(get_db)):
-    return update_post(db, post, id)
 
 
 # Rota para deletar um problema em caso de erro

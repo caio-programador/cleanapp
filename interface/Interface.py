@@ -18,7 +18,7 @@ class Interface:
         self.numero = tk.StringVar()
         self.bairro = tk.StringVar()
         self.gravidade = tk.StringVar()
-        self.comentarios = tk.StringVar()
+        self.description = tk.StringVar()
         self.evidencia = tk.StringVar()
         self.problema = tk.StringVar()
         self.map_widget = None
@@ -110,7 +110,7 @@ class Interface:
                 latitude = problema["latitude"]
                 titulo = problema["title"]
                 longitude = problema["longitude"]
-                comments = problema["comments"]
+                description = problema["description"]
                 gravidade = problema["level"]
                 likes = problema["likes"]
                 imagem_caminho = "../" + problema["images_url"][0]
@@ -138,10 +138,9 @@ class Interface:
                 texto_problema.grid(row=0, column=0, columnspan=4, padx=5, pady=2)
                 self.widgets.append(texto_problema)  # Adicionar o widget à lista
 
-                for comment in comments:
-                    texto_comentarios = tk.Label(frame_problema, text=f"Comentários: {comment}", bg='purple', fg='white')
-                    texto_comentarios.grid(row=1, column=0, columnspan=4, padx=5, pady=2)
-                    self.widgets.append(texto_comentarios)  # Adicionar o widget à lista
+                texto_description = tk.Label(frame_problema, text=f"Comentários: {description}", bg='purple', fg='white')
+                texto_description.grid(row=1, column=0, columnspan=4, padx=5, pady=2)
+                self.widgets.append(texto_description)  # Adicionar o widget à lista
 
                 texto_gravidade = tk.Label(frame_problema, text=f"Gravidade: {gravidade}", bg='purple', fg='white')
                 texto_gravidade.grid(row=2, column=0, columnspan=4, padx=5, pady=2)
@@ -179,7 +178,7 @@ class Interface:
         self.numero.set("")
         self.bairro.set("")
         self.gravidade.set("Baixa")  # Reset to default value
-        self.comentarios.set("")
+        self.description.set("")
         self.evidencia.set("")
         self.problema.set("")
 
@@ -229,7 +228,7 @@ class Interface:
         texto_descricao = tk.Label(frame_form, text="Descrição do problema", bg='black', fg='white')
         texto_descricao.grid(row=4, column=0, sticky='w', padx=5, pady=5)
         self.widgets.append(texto_descricao)  # Adicionar o widget à lista
-        caixa_texto_descricao = tk.Entry(frame_form, width=50, textvariable=self.comentarios)
+        caixa_texto_descricao = tk.Entry(frame_form, width=50, textvariable=self.description)
         caixa_texto_descricao.grid(row=4, column=1, padx=5, pady=5)
         self.widgets.append(caixa_texto_descricao)  # Adicionar o widget à lista
         caixa_texto_descricao.config(validate='key', validatecommand=vcmd)  # Seta a regra de limitar caracteres
@@ -273,7 +272,7 @@ class Interface:
         else:
             data = {
                 "title": self.problema.get(),
-                "comments": [self.comentarios.get()],
+                "description": self.description.get(),
                 "latitude": lat,
                 "longitude": long,
                 "category_name": "undefined",
@@ -297,7 +296,7 @@ class Interface:
             texto_confirmacao = tk.Label(frame_confirmacao,
                                          text=f"Informações armazenadas:\nProblema: {self.problema.get()}\nRua: {self.rua.get()}"
                                               f"\nNúmero: {self.numero.get()}\nBairro: {self.bairro.get()}"
-                                              f"\nGravidade: {self.gravidade.get()}\nDescrição: {self.comentarios.get()}"
+                                              f"\nGravidade: {self.gravidade.get()}\nDescrição: {self.description.get()}"
                                               f"\nEvidência:",
                                          bg='black', fg='white')
             texto_confirmacao.pack(side="top", padx=5, pady=5)
