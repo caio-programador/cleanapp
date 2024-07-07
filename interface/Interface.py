@@ -403,11 +403,11 @@ class Interface:
                 tamanho_icone = 25 + (likes // 5) * 5
                 marker_icon = None
                 if gravidade == "Baixo":
-                    marker_icon = carregar_icone("marker_green.png", tamanho_icone)
+                    marker_icon = carregar_icone("source/marker_green.png", tamanho_icone)
                 elif gravidade == "Médio":
-                    marker_icon = carregar_icone("marker_yellow.png", tamanho_icone)
+                    marker_icon = carregar_icone("source/marker_yellow.png", tamanho_icone)
                 elif gravidade == "Alto":
-                    marker_icon = carregar_icone("marker_red.png", tamanho_icone)
+                    marker_icon = carregar_icone("source/marker_red.png", tamanho_icone)
 
                 marker = self.map_widget.set_marker(lat, lon, text=titulo, icon=marker_icon)
 
