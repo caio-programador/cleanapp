@@ -47,7 +47,7 @@ class Interface:
             titulo = problema["title"]
             gravidade = problema["level"]
             imagem_caminho = "../" + problema["images_url"][0]
-            likeNumero = 0
+            likeNumero = problema["likes"]
 
             if lat and lon:
                 # Calcular tamanho do ícone com base nos likes
