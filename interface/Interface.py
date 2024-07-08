@@ -25,6 +25,7 @@ class Interface:
         self.widgets = []
         self.problemas = []
 
+    # Fecha todos os widgets
     def fechar_widgets(self):
         for widget in self.widgets:
             widget.destroy()
@@ -41,6 +42,7 @@ class Interface:
         self.widgets.append(self.map_widget)
         self.carregar_problemas()
 
+        # Faz a abertura de todos os Markers dentro do mapa
         for problema in self.problemas:
             lat = problema["latitude"]
             lon = problema["longitude"]
@@ -74,6 +76,7 @@ class Interface:
     def carregar_problemas(self):
         self.problemas = requests.get(self.URL).json()
 
+    # Mostra na tela todos os problemas cadastrados na tela inicial
     def mostrar_problemas(self):
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
         self.carregar_problemas()
@@ -170,14 +173,15 @@ class Interface:
                     except Exception as e:
                         print(f"Erro ao carregar imagem: {e}")
 
+    #
     def entrada_dados(self):
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
 
-        # Reset input fields
+        # As caixas padrões para serem colocados os dados são zeradas aqui
         self.rua.set("")
         self.numero.set("")
         self.bairro.set("")
-        self.gravidade.set("Baixo")  # Reset to default value
+        self.gravidade.set("Baixo")  # Muda para o valor padrão
         self.description.set("")
         self.evidencia.set("")
         self.problema.set("")
@@ -187,7 +191,7 @@ class Interface:
 
         self.widgets.append(frame_form)
 
-        # Criado para criar uma validação de 40 caracteres no máximo
+        # Criado para uma validação de 40 caracteres no máximo
         vcmd = (self.root.register(limitar_caracteres), '%P')
 
         # Rua
@@ -260,11 +264,13 @@ class Interface:
         botao_nao_confirmar.grid(row=7, column=1, padx=5, pady=5, sticky='w')
         self.widgets.append(botao_nao_confirmar)  # Adicionar o widget à lista
 
+    #Botão de confirmação
     def confirmar(self):
 
         lat = None
         long = None
 
+        # Chamada da função responsável por calcular a Latitude e Longitude
         lat, long = geocode_address(self.rua.get(), self.numero.get(), self.bairro.get(), 'RS', 'Santa Cruz do Sul')
 
         if lat == self.LAT and long == self.LONG:
@@ -318,11 +324,10 @@ class Interface:
         arquivo = filedialog.askopenfilename()
         if arquivo:
             self.evidencia.set(arquivo)
-            # tem q ver
 
     def configurar(self):
         self.root.title("CleanApp")
-        self.root.geometry("450x650")  # Set the size of the window
+        self.root.geometry("450x650")  # Define o tamanho da tela
         self.root.configure(background="black")
         self.root.resizable(width=False, height=False)
 
@@ -331,26 +336,26 @@ class Interface:
         bottom_bar = tk.Frame(self.root, bg='purple')
         bottom_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # Load and resize the images
+        # Carrega e redimensiona as imagens
         try:
             home_image = Image.open("source/home_icon.png").resize((35, 35))
             add_image = Image.open("source/add_icon.png").resize((35, 35))
             map_image = Image.open("source/map_icon.png").resize((35, 35))
         except Exception as e:
             print(f"Error loading images: {e}")
-            home_image = add_image = map_image = Image.new('RGB', (35, 35), color='purple')  # Placeholder
+            home_image = add_image = map_image = Image.new('RGB', (35, 35), color='purple')
 
         home_photo = ImageTk.PhotoImage(home_image)
         add_photo = ImageTk.PhotoImage(add_image)
         map_photo = ImageTk.PhotoImage(map_image)
 
-        # Create buttons with images
+        # Cria os botões com imagens
         home_button = tk.Button(bottom_bar, image=home_photo, bg='purple', borderwidth=0,
                                 command=self.mostrar_problemas)
         add_button = tk.Button(bottom_bar, image=add_photo, bg='purple', borderwidth=0, command=self.entrada_dados)
         map_button = tk.Button(bottom_bar, image=map_photo, bg='purple', borderwidth=0, command=self.abrir_mapa)
 
-        # Arrange buttons in the bottom bar
+        # Coloca todos os botões na parte inferior
         home_button.pack(side=tk.LEFT, padx=56)
         add_button.pack(side=tk.LEFT, padx=56)
         map_button.pack(side=tk.LEFT, padx=56)
@@ -380,7 +385,7 @@ class Interface:
         self.widgets.append(texto_nao_confirmacao)  # Adicionar o widget de não confirmação à lista
 
     def centrar_mapa_no_marcador(self, latitude, longitude):
-        """Centraliza o mapa no marcador com base na latitude e longitude fornecidas."""
+        #Centraliza o mapa no marcador com base na latitude e longitude fornecidas.
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
         if self.map_widget is not None:
             self.map_widget.destroy()  # Destroy the existing map widget
