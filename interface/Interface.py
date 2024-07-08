@@ -141,7 +141,7 @@ class Interface:
                 texto_problema.grid(row=0, column=0, columnspan=4, padx=5, pady=2)
                 self.widgets.append(texto_problema)  # Adicionar o widget à lista
 
-                texto_description = tk.Label(frame_problema, text=f"Comentários: {description}", bg='purple', fg='white')
+                texto_description = tk.Label(frame_problema, text=f"Descrição: {description}", bg='purple', fg='white')
                 texto_description.grid(row=1, column=0, columnspan=4, padx=5, pady=2)
                 self.widgets.append(texto_description)  # Adicionar o widget à lista
 
