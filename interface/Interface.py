@@ -10,8 +10,8 @@ from utils import *
 class Interface:
 
     def __init__(self):
-        self.LAT = -29.7131
-        self.LONG = -52.4316
+        self.LAT = -29.7240622
+        self.LONG = -52.4358285
         self.URL = "http://127.0.0.1:8000/posts"
         self.root = tk.Tk()
         self.rua = tk.StringVar()
@@ -177,7 +177,7 @@ class Interface:
         self.rua.set("")
         self.numero.set("")
         self.bairro.set("")
-        self.gravidade.set("Baixa")  # Reset to default value
+        self.gravidade.set("Baixo")  # Reset to default value
         self.description.set("")
         self.evidencia.set("")
         self.problema.set("")
@@ -237,7 +237,7 @@ class Interface:
         texto_gravidade = tk.Label(frame_form, text="Selecione a gravidade do problema", bg='black', fg='white')
         texto_gravidade.grid(row=5, column=0, sticky='w', padx=5, pady=5)
         self.widgets.append(texto_gravidade)  # Adicionar o widget à lista
-        self.gravidade.set("Baixa")  # Set default value
+        self.gravidade.set("Baixo")  # Set default value
         menu_gravidade = tk.OptionMenu(frame_form, self.gravidade, "Baixo", "Médio", "Alto")
         menu_gravidade.grid(row=5, column=1, padx=5, pady=5)
         self.widgets.append(menu_gravidade)  # Adicionar o widget à lista
