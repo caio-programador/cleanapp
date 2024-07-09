@@ -4,7 +4,7 @@ from tkinter import filedialog
 import requests
 from PIL import Image, ImageTk
 import tkintermapview as tkmv
-from .utils import *
+from utils import *
 import platform
 
 
