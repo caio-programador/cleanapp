@@ -58,6 +58,7 @@ def create_post(db: Session, post: PostCreate, images_url: List[str]):
         level=post.level,
         likes=0
     )
+
     # Adiciona e confirma a transação
     db.add(db_post)
     db.commit()
@@ -109,7 +110,7 @@ def convert_post_schemas(post: Post) -> PostReturn:
         id=post.id,
         title=post.title,
         description=post.description,  # converte string para lista (loads())
-        images_url=json.loads(post.images_url),
+        images_url=[x.replace("\\", "/") for x in json.loads(post.images_url)],
         latitude=post.latitude,
         longitude=post.longitude,
         level=post.level,

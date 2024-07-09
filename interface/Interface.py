@@ -5,6 +5,7 @@ import requests
 from PIL import Image, ImageTk
 import tkintermapview as tkmv
 from utils import *
+import platform
 
 
 class Interface:
@@ -35,7 +36,11 @@ class Interface:
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
         if self.map_widget is not None:
             self.map_widget.destroy()  # Destroy the existing map widget
-        self.map_widget = tkmv.TkinterMapView(self.root, width=450, height=650)
+        if platform.system() == "Windows":
+            self.map_widget = tkmv.TkinterMapView(self.root, width=450, height=650)
+        else:
+            self.map_widget = tkmv.TkinterMapView(self.root, width=550, height=650)
+
         self.map_widget.set_position(self.LAT, self.LONG)
         self.map_widget.set_zoom(14)
         self.map_widget.pack()
@@ -157,8 +162,11 @@ class Interface:
                 # Botão de abrir mapa
                 botao_abrir_mapa = tk.Button(frame_problema, text="➡️", bg='purple', fg='white',
                                              command=lambda lat=latitude, lon=longitude: self.centrar_mapa_no_marcador(lat,
-                                                                                                                  lon))
-                botao_abrir_mapa.grid(row=5, column=2, padx=85, pady=5, sticky='e')
+                                                                                                                lon))
+                if platform.system() == "Windows":
+                    botao_abrir_mapa.grid(row=5, column=2, padx=85, pady=5, sticky='e')
+                else:
+                    botao_abrir_mapa.grid(row=5, column=2, padx=130, pady=5, sticky='e')
                 self.widgets.append(botao_abrir_mapa)  # Adicionar o widget ao botão de abrir o mapa à lista
 
                 if imagem_caminho:
@@ -327,7 +335,10 @@ class Interface:
 
     def configurar(self):
         self.root.title("CleanApp")
-        self.root.geometry("450x650")  # Define o tamanho da tela
+        if platform.system() == "Windows":
+            self.root.geometry("450x650")  # Define o tamanho da tela
+        else:
+            self.root.geometry("550x650")
         self.root.configure(background="black")
         self.root.resizable(width=False, height=False)
 
@@ -356,10 +367,15 @@ class Interface:
         map_button = tk.Button(bottom_bar, image=map_photo, bg='purple', borderwidth=0, command=self.abrir_mapa)
 
         # Coloca todos os botões na parte inferior
-        home_button.pack(side=tk.LEFT, padx=56)
-        add_button.pack(side=tk.LEFT, padx=56)
-        map_button.pack(side=tk.LEFT, padx=56)
-        self.abrir_mapa()
+        if platform.system() == "Windows":
+            home_button.pack(side=tk.LEFT, padx=56)
+            add_button.pack(side=tk.LEFT, padx=56)
+            map_button.pack(side=tk.LEFT, padx=56)
+        else:
+            home_button.pack(side=tk.LEFT, padx=73)
+            add_button.pack(side=tk.LEFT, padx=73)
+            map_button.pack(side=tk.LEFT, padx=73)
+        self.mostrar_problemas()
         self.root.mainloop()
 
     def nao_encontrado(self):
@@ -386,11 +402,14 @@ class Interface:
         self.widgets.append(texto_nao_confirmacao)  # Adicionar o widget de não confirmação à lista
 
     def centrar_mapa_no_marcador(self, latitude, longitude):
-        #Centraliza o mapa no marcador com base na latitude e longitude fornecidas.
+        # Centraliza o mapa no marcador com base na latitude e longitude fornecidas.
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
         if self.map_widget is not None:
             self.map_widget.destroy()  # Destroy the existing map widget
-        self.map_widget = tkmv.TkinterMapView(self.root, width=450, height=650)
+        if platform.system() == "Windows":
+            self.map_widget = tkmv.TkinterMapView(self.root, width=450, height=650)
+        else:
+            self.map_widget = tkmv.TkinterMapView(self.root, width=550, height=650)
         self.map_widget.set_position(latitude, longitude)
         self.map_widget.set_zoom(14)
         self.map_widget.pack()
