@@ -35,7 +35,7 @@ class Interface:
     def abrir_mapa(self):
         self.fechar_widgets()  # Fechar todos os widgets antes de executar a função
         if self.map_widget is not None:
-            self.map_widget.destroy()  # Destroy the existing map widget
+            self.map_widget.destroy()  # Destroi o map widget que ja existe
         if platform.system() == "Windows":
             self.map_widget = tkmv.TkinterMapView(self.root, width=450, height=650)
         else:
@@ -328,11 +328,13 @@ class Interface:
                 except Exception as e:
                     print(f"Erro ao carregar imagem: {e}")
 
+    # Utilizada para abrir o arquivo e salvar ele
     def selecionar_arquivo(self):
         arquivo = filedialog.askopenfilename()
         if arquivo:
             self.evidencia.set(arquivo)
 
+    # Utilizada para configurar a aba do APP
     def configurar(self):
         self.root.title("CleanApp")
         if platform.system() == "Windows":
@@ -342,6 +344,7 @@ class Interface:
         self.root.configure(background="black")
         self.root.resizable(width=False, height=False)
 
+    # Utilizada para rodar a aba do APP
     def execute(self):
         self.configurar()
         bottom_bar = tk.Frame(self.root, bg='purple')
@@ -378,6 +381,7 @@ class Interface:
         self.mostrar_problemas()
         self.root.mainloop()
 
+    # Função para caso não encontre o endereço (texto que aparece)
     def nao_encontrado(self):
         self.fechar_widgets()  # Fechar todos os widgets anteriores
         frame_nao_encontrado = tk.Frame(self.root, bg='black')
@@ -390,6 +394,7 @@ class Interface:
         texto_nao_confirmacao.pack(anchor='center', padx=5, pady=5)
         self.widgets.append(texto_nao_confirmacao)  # Adicionar o widget de não confirmação à lista
 
+    # Função para caso clique no botão de não confirmar (texto que aparece)
     def nao_confirmar(self):
         self.fechar_widgets()  # Fechar todos os widgets anteriores
         frame_nao_confirmacao = tk.Frame(self.root, bg='black')
@@ -415,6 +420,7 @@ class Interface:
         self.map_widget.pack()
         self.widgets.append(self.map_widget)
 
+        # Abre todos os marcadores
         for problema in self.problemas:
             lat = problema["latitude"]
             lon = problema["longitude"]
