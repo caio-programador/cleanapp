@@ -359,6 +359,7 @@ class Interface:
         home_button.pack(side=tk.LEFT, padx=56)
         add_button.pack(side=tk.LEFT, padx=56)
         map_button.pack(side=tk.LEFT, padx=56)
+        self.abrir_mapa()
         self.root.mainloop()
 
     def nao_encontrado(self):

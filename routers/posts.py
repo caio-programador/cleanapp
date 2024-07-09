@@ -78,11 +78,8 @@ def save_image(file: UploadFile) -> str:
     os.makedirs(dir_path, exist_ok=True)
 
     file_path = os.path.join(dir_path, file.filename)
-
-    file_path.replace(os.sep, "/")
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    print(file_path)
     return file_path
 
 
